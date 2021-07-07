@@ -78,5 +78,54 @@ namespace Esercitazione1_FormeGeometriche
                 Console.WriteLine($"Errore generico: {ex.Message}");
             }
         }
+
+        public override async Task SaveToFileAsync(string fileName)
+        {
+            try
+            {
+                if (!Directory.Exists(@"C:\Academy"))
+                {
+                    Directory.CreateDirectory(@"C:\Academy");
+                }
+                StreamWriter writer = File.CreateText(fileName);
+
+                await writer.WriteLineAsync($"{Name}");
+                await writer.WriteLineAsync($"{Base}");
+                await writer.WriteLineAsync($"{Altezza}");
+                await writer.FlushAsync();
+                writer.Close();
+
+            }
+            catch (IOException ioex)
+            {
+                Console.WriteLine($" ERRORE: {ioex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Errore generico: {ex.Message}");
+            }
+        }
+        public override async Task LoadFromFileAsync(string fileName)
+        {
+            try
+            {
+                StreamReader reader = File.OpenText(fileName);
+                Name = await reader.ReadLineAsync();
+                double.TryParse(await reader.ReadLineAsync(), out double _base);
+                Base = _base;
+                double.TryParse(await reader.ReadLineAsync(), out double altezza);
+                Altezza = altezza;
+
+                reader.Close();
+            }
+            catch (IOException ioex)
+            {
+                Console.WriteLine($" ERRORE: {ioex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Errore generico: {ex.Message}");
+            }
+        }
     }
 }

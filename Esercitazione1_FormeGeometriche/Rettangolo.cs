@@ -90,12 +90,13 @@ namespace Esercitazione1_FormeGeometriche
                     Directory.CreateDirectory(@"C:\Academy");
                 }
                 StreamWriter writer = File.CreateText(fileName);
+                
                 await writer.WriteLineAsync($"{Name}");
-                await writer.WriteLineAsync($"{CoordinateCentro[0]}");
-                await writer.WriteLineAsync($"{CoordinateCentro[1]}");
-                await writer.WriteLineAsync($"{Raggio}");
+                await writer.WriteLineAsync($"{Larghezza}");
+                await writer.WriteLineAsync($"{Altezza}");
                 await writer.FlushAsync();
                 writer.Close();
+               
             }
             catch (IOException ioex)
             {
@@ -112,12 +113,11 @@ namespace Esercitazione1_FormeGeometriche
             {
                 StreamReader reader = File.OpenText(fileName);
                 Name = await reader.ReadLineAsync();
-                int.TryParse(await reader.ReadLineAsync(), out int coordinata1);
-                CoordinateCentro[0] = coordinata1;
-                int.TryParse(await reader.ReadLineAsync(), out int coordinata2);
-                CoordinateCentro[1] = coordinata2;
-                double.TryParse(await reader.ReadLineAsync(), out double raggio);
-                Raggio = raggio;
+                double.TryParse(await reader.ReadLineAsync(), out double larghezza);
+                Larghezza = larghezza;
+                double.TryParse(await reader.ReadLineAsync(), out double altezza);
+                Altezza = altezza;
+               
                 reader.Close();
             }
             catch (IOException ioex)

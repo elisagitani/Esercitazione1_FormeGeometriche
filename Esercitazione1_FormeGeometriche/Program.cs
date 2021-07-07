@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Esercitazione1_FormeGeometriche
 {
     class Program
     {
-        static void Main(string[] args)
+        public static object StopWatch { get; private set; }
+
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Hello World!");
 
@@ -27,16 +31,16 @@ namespace Esercitazione1_FormeGeometriche
             Triangolo t = new Triangolo("Triangolo",_altezza,_base);
             forme.Add(t);
             
-            Console.WriteLine();
-            foreach(var item in forme)
-            {
-                item.DisegnaForma();  
-            }
+            //Console.WriteLine();
+            //foreach(var item in forme)
+            //{
+            //    item.DisegnaForma();  
+            //}
 
             string fileName = @"C:\Users\elisa.gitani\Desktop\Academy\Dati.txt";
 
             //IFileSerializable[] figure = new IFileSerializable[] {c,r,t};
-
+            
             //Console.WriteLine("\nSalvataggio Dati");
             foreach (var item in forme)
             {
@@ -45,8 +49,13 @@ namespace Esercitazione1_FormeGeometriche
                 item.DisegnaForma();
             }
 
-            
-           
+            foreach (var item in forme)
+            {
+                await item.SaveToFileAsync(fileName);
+                await item.LoadFromFileAsync(fileName);
+                item.DisegnaForma();
+            }
+
 
             //Console.WriteLine("\nCaricamento Dati");
             //foreach (var item in figure)
